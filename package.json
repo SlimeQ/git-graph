@@ -1,12 +1,13 @@
 {
-  "name": "git-blame",
-  "main": "./lib/git-blame",
-  "version": "0.4.5",
-  "description": "Toggle git-blame annotations in the gutter of atom editor.",
+  "name": "git-gutter",
+  "main": "./lib/git-gutter",
+  "version": "0.0.0.1",
+  "description": "Provides git blame and git log graph in the gutter.",
   "activationCommands": {
-      "atom-text-editor": [ "git-blame:toggle"]
+      "atom-text-editor": [ "git-blame:toggle",
+                            "git-log-showtree:toggle"]
   },
-  "repository": "https://github.com/alexcorre/git-blame",
+  "repository": "https://github.com/SlimeQ/git-gutter",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0"
