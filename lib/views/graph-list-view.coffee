@@ -58,7 +58,7 @@ GraphListLinesComponent = React.createClass
 
 GraphListView = React.createClass
   propTypes:
-    projectGraphr: RP.object.isRequired
+    projectGrapher: RP.object.isRequired
     remoteRevision: RP.object.isRequired
     editorView: RP.object.isRequired
 
@@ -120,7 +120,7 @@ GraphListView = React.createClass
 
   loadGraph: ->
     @setState loading: true
-    @props.projectGraphr.graph @editor().getPath(), (err, data) =>
+    @props.projectGrapher.graph @editor().getPath(), (err, data) =>
       if err
         @setState
           loading: false
