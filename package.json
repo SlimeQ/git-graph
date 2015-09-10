@@ -1,7 +1,7 @@
 {
   "name": "git-graph",
   "main": "./lib/git-graph",
-  "version": "0.0.0.1",
+  "version": "0.0.1",
   "description": "Provides git log graph in the gutter.",
   "activationCommands": {
       "atom-text-editor": [ "git-graph:toggle" ]
