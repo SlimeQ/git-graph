@@ -5,42 +5,42 @@
 @import "ui-variables";
 @import "mixins";
 
-@git-blame-bg-color: @base-background-color;
+@git-graph-bg-color: @base-background-color;
 
-atom-text-editor::shadow .git-blame-mount,
-atom-text-editor .git-blame-mount {
+atom-text-editor::shadow .git-graph-mount,
+atom-text-editor .git-graph-mount {
   position: relative;
 
-  .git-blame {
-    .git-blame-resize-handle {
+  .git-graph {
+    .git-graph-resize-handle {
       .stretch(@left: auto);
       width: 10px;
       cursor: col-resize;
       z-index: 1;
     }
 
-    .git-blame-scroller {
+    .git-graph-scroller {
       .stretch();
       overflow: hidden;
-      background-color: @git-blame-bg-color;
+      background-color: @git-graph-bg-color;
       border-right: 1px solid @pane-item-border-color;
       border-left: 1px solid @pane-item-border-color;
 
-      .blame-lines {
+      .graph-lines {
         padding-bottom: 30px;
         white-space: nowrap;
 
-        .blame-line {
+        .graph-line {
           padding-left: 4px;
           overflow: hidden;
           text-overflow: ellipsis;
 
           &.line-bg-lighter {
-            background-color: lighten(@git-blame-bg-color, 4%);
+            background-color: lighten(@git-graph-bg-color, 4%);
           }
 
           &.line-bg-darker {
-            background-color: darken(@git-blame-bg-color, 4%);
+            background-color: darken(@git-graph-bg-color, 4%);
           }
 
           .hash, .date {

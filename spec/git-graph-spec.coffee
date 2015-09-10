@@ -1,8 +1,8 @@
 path                      = require 'path'
 temp                      = require 'temp'
 fs                        = require 'fs-plus'
-GitBlame                  = require '../lib/git-blame'
-BlameViewController       = require '../lib/controllers/blameViewController'
+GitGraph                  = require '../lib/git-graph'
+GraphViewController       = require '../lib/controllers/graphViewController'
 
 
 configProject = (projectPath) ->
@@ -14,13 +14,13 @@ configProject = (projectPath) ->
 
     return tempPath
 
-describe "git-blame", ->
+describe "git-graph", ->
   beforeEach ->
-    atom.packages.activatePackage('git-blame')
-    spyOn(BlameViewController, 'toggleBlame')
+    atom.packages.activatePackage('git-graph')
+    spyOn(GraphViewController, 'toggleGraph')
 
   describe "when a single git root folder is loaded", ->
-    it 'should toggle blame with the associated git repo', ->
+    it 'should toggle graph with the associated git repo', ->
 
       projectPath = path.join(__dirname, 'fixtures', 'repo1')
       tempPath = configProject(projectPath)
@@ -36,16 +36,16 @@ describe "git-blame", ->
         workspaceElement = atom.views.getView(atom.workspace)
 
         waitsForPromise ->
-          GitBlame.toggleBlame()
+          GitGraph.toggleGraph()
 
         runs ->
-          expect(BlameViewController.toggleBlame).toHaveBeenCalled()
-          blamer = BlameViewController.toggleBlame.calls[0].args[0]
+          expect(GraphViewController.toggleGraph).toHaveBeenCalled()
+          graphr = GraphViewController.toggleGraph.calls[0].args[0]
           expectedGitPath = fs.realpathSync(path.join(tempPath, '.git'))
-          expect(blamer.repo.path).toEqual(expectedGitPath)
+          expect(graphr.repo.path).toEqual(expectedGitPath)
 
   describe "when multiple git root folders are loaded", ->
-    it 'should toggle blame with the associated git repo', ->
+    it 'should toggle graph with the associated git repo', ->
       projectPath1 = path.join(__dirname, 'fixtures', 'repo1')
       tempPath1 = configProject(projectPath1)
 
@@ -61,16 +61,16 @@ describe "git-blame", ->
       runs ->
         workspaceElement = atom.views.getView(atom.workspace)
         waitsForPromise ->
-          GitBlame.toggleBlame()
+          GitGraph.toggleGraph()
 
         runs ->
-          expect(BlameViewController.toggleBlame).toHaveBeenCalled()
-          blamer = BlameViewController.toggleBlame.calls[0].args[0]
+          expect(GraphViewController.toggleGraph).toHaveBeenCalled()
+          graphr = GraphViewController.toggleGraph.calls[0].args[0]
           expectedGitPath = fs.realpathSync(path.join(tempPath1, '.git'))
-          expect(blamer.repo.path).toEqual(expectedGitPath)
+          expect(graphr.repo.path).toEqual(expectedGitPath)
 
   describe "when zero git root folders are active", ->
-    it 'should not toggle blame', ->
+    it 'should not toggle graph', ->
 
       projectPath = path.join(__dirname, 'fixtures', 'non-git')
       tempPath = configProject(projectPath)
@@ -84,7 +84,7 @@ describe "git-blame", ->
       runs ->
         workspaceElement = atom.views.getView(atom.workspace)
         waitsForPromise ->
-          GitBlame.toggleBlame()
+          GitGraph.toggleGraph()
 
         runs ->
-          expect(BlameViewController.toggleBlame).not.toHaveBeenCalled()
+          expect(GraphViewController.toggleGraph).not.toHaveBeenCalled()

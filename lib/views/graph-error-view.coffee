@@ -1,11 +1,11 @@
 {View} = require 'atom-space-pen-views'
 
 module.exports =
-class BlameErrorView extends View
+class GraphErrorView extends View
 
   @content: (params) ->
     @div class: 'overlay from-top', =>
-      @div class: 'block text-highlight', 'Git Blame Error:'
+      @div class: 'block text-highlight', 'Git Graph Error:'
       @div class: 'error-message block', params.message
       @div class: 'block', =>
         @button class: 'btn', click: 'onOk', 'Ok'

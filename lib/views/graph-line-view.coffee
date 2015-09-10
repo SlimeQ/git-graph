@@ -4,7 +4,7 @@ Reactionary = require 'reactionary-atom-fork'
 {div, span, a} = Reactionary
 RP = React.PropTypes
 moment = require 'moment'
-{formatDate} = require '../util/blameFormatter'
+{formatDate} = require '../util/graphFormatter'
 errorController = require '../controllers/errorController'
 
 HASH_LENGTH = 7  # github uses this length
@@ -16,12 +16,12 @@ getDefaultDate = ->
 
 
 renderLoading = ->
-  div className: 'blame-line loading',
+  div className: 'graph-line loading',
     span className: 'hash', BLANK_HASH
     span className: 'date', getDefaultDate()
     span className: 'committer', 'Loading'
 
-BlameLineComponent = React.createClass
+GraphLineComponent = React.createClass
   propTypes:
     date: RP.string.isRequired
     hash: RP.string.isRequired
@@ -35,12 +35,12 @@ BlameLineComponent = React.createClass
 
   render: ->
     if @props.noCommit
-      div className: 'blame-line no-commit text-subtle',
+      div className: 'graph-line no-commit text-subtle',
         span className: 'hash', BLANK_HASH
         span className: 'date', @props.date
         span className: 'committer', 'Nobody'
     else
-      div className: 'blame-line ' + @props.backgroundClass,
+      div className: 'graph-line ' + @props.backgroundClass,
         unless @props.remoteRevision
           a onClick: @didClickHashWithoutUrl, className: 'hash', @props.hash.substring(0, HASH_LENGTH)
         else
@@ -68,4 +68,4 @@ BlameLineComponent = React.createClass
   didClickHashWithoutUrl: (event, element) ->
     errorController.showError 'error-no-custom-url-specified'
 
-module.exports = {BlameLineComponent, renderLoading}
+module.exports = {GraphLineComponent, renderLoading}

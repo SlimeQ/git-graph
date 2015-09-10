@@ -1,0 +1,18 @@
+{
+  "context-menu": {
+    "atom-text-editor": [{
+      "label": "Toggle Git Graph",
+      "command": "git-graph:toggle"
+    }]
+  },
+  "menu": [{
+    "label": "Packages",
+    "submenu": [{
+      "label": "git-graph",
+      "submenu": [{
+        "label": "Toggle Git Graph",
+        "command": "git-graph:toggle"
+      }]
+    }]
+  }]
+}

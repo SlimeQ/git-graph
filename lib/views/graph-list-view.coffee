@@ -4,10 +4,10 @@ Reactionary = require 'reactionary-atom-fork'
 {div} = Reactionary
 RP = React.PropTypes
 _ = require 'underscore'
-{BlameLineComponent, renderLoading} = require './blame-line-view'
+{GraphLineComponent, renderLoading} = require './graph-line-view'
 
 
-BlameListLinesComponent = React.createClass
+GraphListLinesComponent = React.createClass
   propTypes:
     annotations: RP.arrayOf(RP.object)
     loading: RP.bool.isRequired
@@ -43,7 +43,7 @@ BlameListLinesComponent = React.createClass
     # add url to open diff
     l.remoteRevision = @props.remoteRevision for l in lines
     @_addAlternatingBackgroundColor lines
-    div null, lines.map BlameLineComponent
+    div null, lines.map GraphLineComponent
 
   render: ->
     if @props.loading
@@ -56,9 +56,9 @@ BlameListLinesComponent = React.createClass
     finishedEdit = @props.dirty and not dirty
     finishedInitialLoad or finishedEdit
 
-BlameListView = React.createClass
+GraphListView = React.createClass
   propTypes:
-    projectBlamer: RP.object.isRequired
+    projectGraphr: RP.object.isRequired
     remoteRevision: RP.object.isRequired
     editorView: RP.object.isRequired
 
@@ -86,20 +86,20 @@ BlameListView = React.createClass
       div "Sorry, an error occurred."  # TODO: make this better
     else
       div
-        className: 'git-blame-scroller'
+        className: 'git-graph-scroller'
         div
-          className: 'blame-lines'
+          className: 'graph-lines'
           style: WebkitTransform: @getTransform()
-          BlameListLinesComponent
+          GraphListLinesComponent
             annotations: @state.annotations
             loading: @state.loading
             dirty: @state.dirty
             initialLineCount: @editor().getLineCount()
             remoteRevision: @props.remoteRevision
     div
-      className: 'git-blame'
+      className: 'git-graph'
       style: width: @state.width, display: display
-      div className: 'git-blame-resize-handle', onMouseDown: @resizeStarted
+      div className: 'git-graph-resize-handle', onMouseDown: @resizeStarted
       body
 
   getTransform: ->
@@ -113,14 +113,14 @@ BlameListView = React.createClass
       "translate(0px, #{-scrollTop}px)"
 
   componentWillMount: ->
-    # kick off async request for blame data
-    @loadBlame()
+    # kick off async request for graph data
+    @loadGraph()
     @editor().onDidStopChanging @contentsModified
     @editor().onDidSave @saved
 
-  loadBlame: ->
+  loadGraph: ->
     @setState loading: true
-    @props.projectBlamer.blame @editor().getPath(), (err, data) =>
+    @props.projectGraphr.graph @editor().getPath(), (err, data) =>
       if err
         @setState
           loading: false
@@ -139,18 +139,18 @@ BlameListView = React.createClass
 
   saved: ->
     return unless @isMounted()
-    @loadBlame() if @state.visible and @state.dirty
+    @loadGraph() if @state.visible and @state.dirty
 
   toggle: ->
     if @state.visible
       @setState visible: false
     else
-      @loadBlame() if @state.dirty
+      @loadGraph() if @state.dirty
       @setState visible: true
 
   componentDidMount: ->
     # Bind to scroll event on vertical-scrollbar to sync up scroll position of
-    # blame gutter.
+    # graph gutter.
     @scrollbar().on 'scroll', @matchScrollPosition
 
   componentWillUnmount: ->
@@ -183,4 +183,4 @@ BlameListView = React.createClass
     e.stopPropagation()
     e.preventDefault()
 
-module.exports = BlameListView
+module.exports = GraphListView

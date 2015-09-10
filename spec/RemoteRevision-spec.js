@@ -4,7 +4,7 @@ describe('RemoteRevision', function() {
 
   var DEFAULT_HASH = '12345';
   var instance;
-  var fakeRemoteUrl = 'git@github.com/alexcorre/git-blame.git';
+  var fakeRemoteUrl = 'git@github.com/SlimeQ/git-graph.git';
 
   beforeEach(function () {
     instance = new RemoteRevision(fakeRemoteUrl);
