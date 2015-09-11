@@ -4,7 +4,6 @@ Reactionary = require 'reactionary-atom-fork'
 {div, span, a} = Reactionary
 RP = React.PropTypes
 moment = require 'moment'
-{formatDate} = require '../util/graphFormatter'
 errorController = require '../controllers/errorController'
 
 HASH_LENGTH = 7  # github uses this length
@@ -12,23 +11,19 @@ BLANK_HASH = '-'.repeat(HASH_LENGTH)
 
 _defaultDate = null
 getDefaultDate = ->
-  _defaultDate ?= formatDate moment("2014-01-01T13:37:00 Z")
+  _defaultDate ?= "" # formatDate moment("2014-01-01T13:37:00 Z")
 
 
 renderLoading = ->
   div className: 'graph-line loading',
-    span className: 'hash', BLANK_HASH
-    span className: 'date', getDefaultDate()
-    span className: 'committer', 'Loading'
+    span className: 'graph', ""
+    span className: 'hash', ""
+    span className: 'summary', ""
 
 GraphLineComponent = React.createClass
   propTypes:
-    date: RP.string.isRequired
+    graph: RP.string.isRequired
     hash: RP.string.isRequired
-    remoteRevision: RP.object
-    author: RP.string.isRequired
-    committer: RP.string.isRequired
-    committerDate: RP.string.isRequired
     summary: RP.string.isRequired
     backgroundClass: RP.string
     noCommit: RP.bool
@@ -36,19 +31,12 @@ GraphLineComponent = React.createClass
   render: ->
     if @props.noCommit
       div className: 'graph-line no-commit text-subtle',
-        span className: 'hash', BLANK_HASH
-        span className: 'date', @props.date
-        span className: 'committer', 'Nobody'
+        span className: 'graph', @props.graph
     else
       div className: 'graph-line ' + @props.backgroundClass,
-        unless @props.remoteRevision
-          a onClick: @didClickHashWithoutUrl, className: 'hash', @props.hash.substring(0, HASH_LENGTH)
-        else
-          url = @props.remoteRevision.url @props.hash
-          a href: url, target: '_blank', className: 'hash', @props.hash.substring(0, HASH_LENGTH)
-        span className: 'date', @props.date
-        span className: 'committer text-highlight',
-          @props.author.split(' ').slice(-1)[0]
+        span className: 'graph', @props.graph
+        span className: 'hash', @props.hash
+        span className: 'summary', @props.summary
 
   componentDidMount: ->
     $el = $(@getDOMNode())
